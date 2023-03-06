@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #updateBtn{
+      display:none;
+    }
+    table{
+        background-color: rgb(154, 250, 242);
+    }
+    tr,td,thead,th{
+        padding: 10px 10px;
+        border: 1px solid black;
+        text-align: center;
+    }
+    .id-1{
+        width: 5%;
+        text-align: center;
+    }
+    .name-1,.email-1,.password-1{
+        width: 25%;
+        text-align: center;
+    }
+    .edit-1,.delete-1{
+        width: 20%;
+        text-align: center;
+    }
+   </style> 
+</head>
+<body>
+    <h1> CRUD </h1>
+
+    <div>
+        <form action="">
+
+            <p>Name : </p>
+                <input type="text" name="name" id="name"  ><br>
+            <p>Email : </p>
+                <input type="email" name="email" id="email"   ><br>
+            <p>Password : </p>
+                <input type="password" name="password" id="password"  ><br>
+            <br>
+                <button type="button" id="submitBtn" onclick="getValues()">Submit</button>
+                <button type="button" id="updateBtn" >Update</button>
+                <button type="button" onclick="resetForm()">Reset</button>
+            <br>
+            <br>
+
+        </form>
+    </div>
+
+    <div>
+        <table id="table">
+
+            <thead>
+                <tr>
+                    <th class="id-1">Id</th>
+                    <th class="name-1">Name</th>
+                    <th class="email-1">Email</th>
+                    <th class="password-1">Password</th>
+                    <th class="edit-1">Edit Delete</th>
+                </tr>
+            </thead>
+
+            <tbody id="userTableBody">
+            
+            </tbody>
+
+        </table>
+    </div>
+    
+    
+
+    <script>
+
+        var values = [];
+        var updateButtonVisible =false;
+        const name      = document.getElementById('name');
+        const email     = document.getElementById('email');
+        const password  = document.getElementById('password');
+        const submitBtn = document.getElementById('submitBtn');
+        const updateBtn = document.getElementById('updateBtn');
+
+        function getValues(e){
+            // e.preventDefault();
+            var response=checkIsEmpty();
+            if(response != 'encountered'){
+                values.forEach(element => {
+                    if(element.email == email.value){
+                        alert("email already exists ");
+                        values.pop();
+                    }
+                });
+                var userObject = { 'name' : name.value , 'email' : email.value , 'password' : password.value };
+                values.push(userObject);
+                console.log(values)
+                domLoop();
+                resetForm();
+
+            }
+
+        }
+
+        //----CheckEmpty Function
+
+        function checkIsEmpty(){
+            if(name.value == '' || email.value == '' || password.value == ''){
+                if(name.value == ''){alert('name is field is not be empty');}
+                if(email.value == ''){alert('email is field is not be empty');}
+                if(password.value == ''){alert('password is field is not be empty');}
+                return 'encountered'
+            }
+        }
+
+        //----Reset Function
+
+        function resetForm(){
+            name.value ="";
+            email.value ="";
+            password.value ="";
+    
+        }
+
+        //----Dom Display Function
+
+        var tbody=document.getElementById('userTableBody');
+        function domLoop(){
+
+            while (tbody.firstChild) {
+                tbody.removeChild(tbody.firstChild);
+            }
+
+            values.forEach((dom,i)=>{
+                var tr = document.createElement('tr');
+                tr.setAttribute('id',i);
+                var tdIndex = document.createElement('td');
+                var td1 = document.createElement('td');
+                var td2 = document.createElement('td');
+                var td3 = document.createElement('td');
+                var editDelete = document.createElement('td');
+                
+
+                var editButton = document.createElement('button');
+                editButton .innerHTML ="Edit"
+                editDelete.appendChild.value = 'Edit';
+                editButton.setAttribute('onclick','EditFun('+i+')');
+
+                var deleteButton = document.createElement('button');
+                deleteButton.innerHTML ="Delete"
+                editDelete.appendChild.value = 'Delete';
+                deleteButton.setAttribute('onclick','DeleteFun('+i+','+tr.id+')')
+
+                tdIndex.innerHTML = i+1;
+                td1.innerHTML = dom.name;
+                td2.innerHTML = dom.email;
+                td3.innerHTML = dom.password;
+
+                tr.appendChild(tdIndex);
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(editDelete);
+                editDelete.appendChild(editButton);
+                editDelete.appendChild(deleteButton);
+                
+                tbody.appendChild(tr);
+            })
+        }
+
+        //----Edit Function
+
+        function EditFun(index){
+            var getCurrentObject = values[index];
+            name.value = getCurrentObject.name;
+            email.value = getCurrentObject.email;
+            password.value = getCurrentObject.password;
+            toggleButton(index);
+        }
+
+        //----Delete Function
+
+        function DeleteFun(index,index1){
+            values.splice(index,1);
+            console.log(values)
+            var delObject = document.getElementById(index1);
+            delObject.remove(); 
+        }
+
+        //----Update Function
+
+        function updateValues(index){
+            var newObject = {'name':name.value,'email':email.value,'password':password.value};
+            values[index]=newObject;
+            domLoop();
+            toggleButton();
+            resetForm();
+        }
+        function toggleButton(index){
+            if(updateButtonVisible == false){
+                submitBtn.style.display="none";
+                updateBtn.style.display="inline-block";
+                updateButtonVisible = true;
+                updateBtn.setAttribute('onclick','updateValues('+index+')');
+            }
+            else{
+                submitBtn.style.display="inline-block";
+                updateBtn.style.display="none";
+                updateButtonVisible = false;
+            }
+        }
+
+
+    </script>
+</body>
+</html>
