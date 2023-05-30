@@ -1,35 +1,35 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    #updateBtn{
-      display:none;
-    }
-    table{
-        background-color: rgb(154, 250, 242);
-    }
-    tr,td,thead,th{
-        padding: 10px 10px;
-        border: 1px solid black;
-        text-align: center;
-    }
-    .id-1{
-        width: 5%;
-        text-align: center;
-    }
-    .name-1,.email-1,.password-1{
-        width: 25%;
-        text-align: center;
-    }
-    .edit-1,.delete-1{
-        width: 20%;
-        text-align: center;
-    }
-   </style> 
+  <title>To-Do-List</title>
+    <style>
+        #updateBtn{
+        display:none;
+        }
+        table{
+            background-color: rgb(154, 250, 242);
+        }
+        tr,td,thead,th{
+            padding: 10px 10px;
+            border: 1px solid black;
+            text-align: center;
+        }
+        .id-1{
+            width: 5%;
+            text-align: center;
+        }
+        .name-1,.email-1,.password-1{
+            width: 25%;
+            text-align: center;
+        }
+        .edit-1,.delete-1{
+            width: 20%;
+            text-align: center;
+        }
+    </style> 
 </head>
 <body>
     <h1> CRUD </h1>
@@ -77,6 +77,7 @@
 
     <script>
 
+
         var values = [];
         var updateButtonVisible =false;
         const name      = document.getElementById('name');
@@ -87,7 +88,8 @@
 
         function getValues(e){
             // e.preventDefault();
-            var response=checkIsEmpty();
+            var response = checkIsEmpty();
+            
             if(response != 'encountered'){
                 values.forEach(element => {
                     if(element.email == email.value){
@@ -127,7 +129,8 @@
 
         //----Dom Display Function
 
-        var tbody=document.getElementById('userTableBody');
+        var tbody = document.getElementById('userTableBody');
+
         function domLoop(){
 
             while (tbody.firstChild) {
@@ -199,6 +202,7 @@
             toggleButton();
             resetForm();
         }
+        
         function toggleButton(index){
             if(updateButtonVisible == false){
                 submitBtn.style.display="none";
@@ -213,6 +217,7 @@
             }
         }
 
+        
 
     </script>
 </body>
